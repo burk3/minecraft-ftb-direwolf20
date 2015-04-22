@@ -11,7 +11,6 @@ ENV DEBIAN_FRONTEND noninteractive
 
 ENV SERVER_PACK_URL http://www.creeperrepo.net/FTB2/modpacks%5Edirewolf20_17%5E1_2_1%5Edirewolf20_17-server.zip
 ENV SERVER_FILE_NAME minecraft-server.zip
-ENV SERVER_START_SCRIPT ServerStart.sh 
 
 # Install unzip utility
 RUN apt-get install -y unzip
@@ -29,7 +28,7 @@ USER minecraft
 RUN wget -O ${SERVER_FILE_NAME} ${SERVER_PACK_URL} && \
     unzip ${SERVER_FILE_NAME} -d . && \
     rm -f ${SERVER_FILE_NAME} && \
-    chmod +x ${SERVER_START_SCRIPT}
+    chmod +x ServerStart.sh
 
 # Accept eula
 RUN sed -i -e 's/false/true/' eula.txt
@@ -40,5 +39,5 @@ EXPOSE 25565
 VOLUME ["/minecraft/world"]
 
 # Start minecraft server
-CMD ["./${SERVER_START_SCRIPT}"]
+CMD ["ServerStart.sh"]
 
