@@ -12,6 +12,8 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV SERVER_PACK_URL http://www.creeperrepo.net/FTB2/modpacks%5Edirewolf20_17%5E1_10_0%5Edirewolf20_17-server.zip
 ENV SERVER_FILE_NAME minecraft-server.zip
 
+ENV FTB_JAVA_PARAMS="-Xms2048m -Xmx3072m -XX:PermSize=256m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC"
+
 # Install unzip utility
 RUN apt-get install -y unzip
 
@@ -32,6 +34,9 @@ RUN wget -O ${SERVER_FILE_NAME} ${SERVER_PACK_URL} && \
 
 # Accept eula
 RUN sed -i -e 's/false/true/' eula.txt
+
+# Allow Java params from env
+RUN sed -i -e 's/^java -server .* -jar \(FTBServer-.*\.jar\) nogui$/java -server $FTB_JAVA_PARAMS -jar \1 nogui/' ServerStart.sh
 
 # Minecraft server port
 EXPOSE 25565
