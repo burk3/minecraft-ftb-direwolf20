@@ -15,7 +15,10 @@ ENV SERVER_FILE_NAME minecraft-server.zip
 ENV FTB_JAVA_PARAMS="-Xms2048m -Xmx3072m -XX:PermSize=256m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC"
 
 # Install unzip utility
+RUN apt-get update -y
 RUN apt-get install -y unzip
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Create minecraft folders
 RUN useradd -M -s /bin/false minecraft && \
