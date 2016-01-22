@@ -2,12 +2,13 @@
 # 
 # VERSION	1.0
 
-FROM xadozuk/ubuntu-java:latest
-MAINTAINER Xadozuk <docker@xadozuk.com>
+FROM ubuntu:16.04
+MAINTAINER burk3 <burke.cates@gmail.com>
 
 LABEL Description="FTB Minecraft server with the Direwolf20 pack" Vendor="Xadozuk" Version="1.0"
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV JAVA_VERSION 8
 
 ENV SERVER_PACK_URL http://www.creeperrepo.net/FTB2/modpacks%5Edirewolf20_17%5E1_10_0%5Edirewolf20_17-server.zip
 ENV SERVER_FILE_NAME minecraft-server.zip
@@ -15,7 +16,12 @@ ENV SERVER_FILE_NAME minecraft-server.zip
 ENV FTB_JAVA_PARAMS="-Xms2048m -Xmx3072m -XX:PermSize=256m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC"
 
 # Install unzip utility
-RUN apt-get update -y
+RUN apt-get -y update
+RUN apt-get install -y software-properties-common \
+			&& add-apt-repository -y ppa:webupd8team/java \
+			&& apt-get update \
+			&& echo oracle-java${JAVA_VERSION}-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
+			&& apt-get install -y oracle-java${JAVA_VERSION}-installer ca-certificates
 RUN apt-get install -y unzip
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
