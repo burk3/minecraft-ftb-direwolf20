@@ -13,7 +13,7 @@ ENV JAVA_VERSION 8
 ENV SERVER_PACK_URL http://www.creeperrepo.net/FTB2/modpacks%5Edirewolf20_17%5E1_10_0%5Edirewolf20_17-server.zip
 ENV SERVER_FILE_NAME minecraft-server.zip
 
-ENV FTB_JAVA_PARAMS="-Xms2048m -Xmx3072m -XX:PermSize=256m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC"
+ENV FTB_JAVA_PARAMS="-Xms512M -Xmx2048M -XX:PermSize=256M -XX:+UseParNewGC -XX:+CMSIncrementalPacing -XX:+CMSClassUnloadingEnabled -XX:ParallelGCThreads=2 -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10"
 
 # Install unzip utility
 RUN apt-get -y update
@@ -45,7 +45,7 @@ RUN wget -O ${SERVER_FILE_NAME} ${SERVER_PACK_URL} && \
 RUN sed -i -e 's/false/true/' eula.txt
 
 # Allow Java params from env
-RUN sed -i -e 's/^java -server .* -jar \(FTBServer-.*\.jar\) nogui$/java -server $FTB_JAVA_PARAMS -jar \1 nogui/' ServerStart.sh
+RUN sed -i -e 's/-server .* -jar \(FTBServer-.*\.jar\) nogui/-server $FTB_JAVA_PARAMS -jar \1 nogui/' ServerStart.sh
 
 # Minecraft server port
 EXPOSE 25565
