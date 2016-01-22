@@ -9,7 +9,7 @@ LABEL Description="FTB Minecraft server with the Direwolf20 pack" Vendor="Xadozu
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ENV SERVER_PACK_URL http://www.creeperrepo.net/FTB2/modpacks%5Edirewolf20_17%5E1_2_1%5Edirewolf20_17-server.zip
+ENV SERVER_PACK_URL http://www.creeperrepo.net/FTB2/modpacks%5Edirewolf20_17%5E1_10_0%5Edirewolf20_17-server.zip
 ENV SERVER_FILE_NAME minecraft-server.zip
 
 # Install unzip utility
